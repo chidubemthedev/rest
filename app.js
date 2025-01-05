@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const feedRoutes = require("./routes/feed");
 
 const MONGODB_URI =
-  "mongodb+srv://shopcontroller:Janeal0y@nodeshop.gu8ivjw.mongodb.net/shop";
+  "mongodb+srv://shopcontroller:Janeal0y@nodeshop.gu8ivjw.mongodb.net/messages";
 
 const app = express();
 
