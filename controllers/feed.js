@@ -5,7 +5,7 @@ exports.getPosts = (req, res, next) => {
   Post.find()
     .then((posts) => {
       if (!posts) {
-        const error = new Error("Now posts found.");
+        const error = new Error("No posts found.");
         error.statusCode = 200;
         throw error;
       }
@@ -102,6 +102,30 @@ exports.updatePost = (req, res, next) => {
     })
     .then((result) => {
       return res.status(200).json({ message: "Post updated", post: result });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.deletePost = (req, res, next) => {
+  const { postId } = req.params;
+
+  Post.findById(postId)
+    .then((post) => {
+      if (!post) {
+        const error = new Error("Could not find post.");
+        error.statusCode = 404;
+        throw error;
+      }
+      //check logged in user
+      return Post.findByIdAndDelete(postId);
+    })
+    .then((result) => {
+      res.status(200).json({ message: "Post deleted" });
     })
     .catch((err) => {
       if (!err.statusCode) {
